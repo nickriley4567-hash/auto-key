@@ -1,0 +1,30 @@
+name: Auto Update Key
+
+on:
+  schedule:
+    - cron: '0 15 */2 * *'   # 3PM UTC every 2 days
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run key update script
+        run: python update_key.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add key.txt
+          git commit -m "Auto-update key" || echo "No changes"
+          git push
