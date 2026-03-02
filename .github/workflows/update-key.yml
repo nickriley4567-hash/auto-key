@@ -1,8 +1,11 @@
 name: Auto Update Key
 
+permissions:
+  contents: write
+
 on:
   schedule:
-    - cron: '0 15 */2 * *'   # 3PM UTC every 2 days
+    - cron: '0 15 */2 * *'
   workflow_dispatch:
 
 jobs:
